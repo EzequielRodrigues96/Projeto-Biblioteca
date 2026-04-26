@@ -31,4 +31,36 @@ titulo.forEach((titulo: string, indice: number,) => {
 });
 }
 
+function adicionarLivro(
+    novoLivro: string,
+    novoAutor: string,
+    novoAnoPublicacao: number,
+    novoNumPaginas: number,
+    novoLido: boolean,
+    novaNota: number,
+){
+    if(novoAnoPublicacao <= 0 || novoNumPaginas <=0){
+        console.log('Digite um valor maior que 0!')
+        return;
+    }
+    titulo.push(novoLivro);
+    autores.push(novoAutor);
+    anopublicacao.push(novoAnoPublicacao);
+    numpaginas.push(novoNumPaginas);
+    lido.push(novoLido);
+    nota.push(novaNota);
+}
+
+function removerLivro(){
+    titulo.shift();
+    autores.shift();
+    anopublicacao.shift();
+    numpaginas.shift();
+    lido.shift();
+    nota.shift();
+}
+
+adicionarLivro('O Livro que você gostaria que seus pais tivessem lido','Philippa Perry',2019,294,true,4 );
+adicionarLivro('Orgulho e Preconceito','Jane Austen',1813,336,true,5);
+//removerLivro(); //deixei comentado a função de remover livro pq 1984 não merece ser removido, mas funciona!
 exibirBiblioteca();
