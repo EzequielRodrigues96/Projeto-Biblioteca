@@ -1,14 +1,34 @@
-const titulo: string[] = ['1984', 'Dom Casmurro','Sociedade do Casaço',
-    'Noites Brancas'];
+const titulo: string[] = []
+const autores: string[] = [];
+const anopublicacao: number[] = [];
+const numpaginas: number[] = [];
+const lido: boolean[] = [];
+const nota: number[] = [];
 
-const autores: string[] = ["George Orwell", "Machado de Assis", "Byung-Chul Han",
-    'Fiódor Dostoiévski'];
+titulo.push('1984',
+    'Dom Casmurro',
+    'Sociedade do Cansaço',
+    'Noites Brancas'
+    )
 
-const anopublicacao: number[] = [1949,1899,2010,1848];
-const numpaginas: number[] = [224,208,128,96];
-const lido: boolean[] = [true, false, true, true];
-const avaliacoes: number[] = [5,0,4];
+autores.push(
+    "George Orwell",
+    "Machado de Assis",
+    "Byung-Chul Han",
+    "Fiódor Dostoiévsk"
+)
 
-titulo.forEach((titulo: string, indice: number) => {
-    console.log(`${indice + 1}. ${titulo}`);
+anopublicacao.push(1949,1899,2010,1848)
+numpaginas.push(224,208,128,96)
+lido.push(true, false, true, true)
+nota.push(5,0,4,5)
+
+function exibirBiblioteca(){
+titulo.forEach((titulo: string, indice: number,) => {
+    const status = lido[indice] ? 'LIDO'  : 'PENDENTE';
+    const notao: string = nota[indice] > 0 ? `${nota[indice]}/5` : 'SEM NOTA'
+    console.log(`${indice + 1} - "${titulo}" - ${autores[indice]} - (${anopublicacao[indice]}) - ${numpaginas[indice]} páginas - ${status}- Nota: ${notao}`);
 });
+}
+
+exibirBiblioteca();
