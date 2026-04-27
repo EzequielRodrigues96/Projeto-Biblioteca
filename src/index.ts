@@ -60,7 +60,31 @@ function removerLivro(){
     nota.shift();
 }
 
+function buscarPorTitulo(livroPesquisado: string){
+    console.log(titulo.includes(livroPesquisado))
+}
+
+function listarPorAutor(autorPesquisado: string): void {
+    const livrosDoAutor = titulo.map((titulo, indice) =>  ({
+        autor: autores[indice],
+        tituloLivro: titulo,
+        lido: lido[indice]
+    })).filter((livro) => livro.autor === autorPesquisado);
+    
+    if(livrosDoAutor.length === 0){
+        console.log(`Nehum livro de ${autorPesquisado} encontrado!`)
+    }
+
+    else console.log(`\n \nLivros de ${autorPesquisado}:`)
+    livrosDoAutor.forEach((livro, indice) =>{
+        const status: string = livro.lido ? 'LIDO' : 'PENDENTE'
+        console.log(`${indice + 1} - "${livro.tituloLivro}" - ${status}`)
+    })
+}
+
 adicionarLivro('O Livro que você gostaria que seus pais tivessem lido','Philippa Perry',2019,294,true,4 );
 adicionarLivro('Orgulho e Preconceito','Jane Austen',1813,336,true,5);
 //removerLivro(); //deixei comentado a função de remover livro pq 1984 não merece ser removido, mas funciona!
 exibirBiblioteca();
+//buscarPorTitulo('1984');
+listarPorAutor('Jane Austen');
