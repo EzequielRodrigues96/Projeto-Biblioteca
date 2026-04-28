@@ -26,11 +26,10 @@ nota.push(5,0,4,5)
 function exibirBiblioteca(){
 titulo.forEach((titulo: string, indice: number,) => {
     const status = lido[indice] ? 'LIDO'  : 'PENDENTE';
-    const notao: string = nota[indice] > 0 ? `${nota[indice]}/5` : 'SEM NOTA'
+    const notao: string = nota[indice]! > 0 ? `${nota[indice]}/5` : 'SEM NOTA'
     console.log(`${indice + 1} - "${titulo}" - ${autores[indice]} - (${anopublicacao[indice]}) - ${numpaginas[indice]} páginas - ${status}- Nota: ${notao}`);
 });
 }
-
 function adicionarLivro(
     novoLivro: string,
     novoAutor: string,
@@ -50,7 +49,6 @@ function adicionarLivro(
     lido.push(novoLido);
     nota.push(novaNota);
 }
-
 function removerLivro(){
     titulo.shift();
     autores.shift();
@@ -59,11 +57,10 @@ function removerLivro(){
     lido.shift();
     nota.shift();
 }
-
 function buscarPorTitulo(livroPesquisado: string){
-    console.log(titulo.includes(livroPesquisado))
+    const possuiLivro: boolean = titulo.includes(livroPesquisado);
+    possuiLivro ? console.log("\nLivro encontrado!") : console.log("\nLivro não encontrado ou título digitado incorretamente!");
 }
-
 function listarPorAutor(autorPesquisado: string): void {
     const livrosDoAutor = titulo.map((titulo, indice) =>  ({
         autor: autores[indice],
@@ -75,12 +72,74 @@ function listarPorAutor(autorPesquisado: string): void {
         console.log(`Nehum livro de ${autorPesquisado} encontrado!`)
     }
 
-    else console.log(`\n \nLivros de ${autorPesquisado}:`)
+    else console.log(`\nLivros de ${autorPesquisado}:`)
     livrosDoAutor.forEach((livro, indice) =>{
-        const status: string = livro.lido ? 'LIDO' : 'PENDENTE'
+        const status: string = livro.lido ? 'LIDO\n' : 'PENDENTE\n'
         console.log(`${indice + 1} - "${livro.tituloLivro}" - ${status}`)
     })
 }
+function marcarComoLido(tituloLivro: string, aplicarNota:number): void {
+    const posicaoLivro:number = titulo.findIndex((titulo) => titulo === tituloLivro);
+    if(posicaoLivro === -1){
+        console.log (`Livro ${tituloLivro} não encontrado. \n`)
+        return;
+    }
+    else {
+        if (lido[posicaoLivro] === true){
+            console.log("Você já leu esse livro!")
+            return;
+        }
+        else {
+           if(aplicarNota < 1){
+            console.log("Digite uma nota válida!")
+            return;
+           }
+           else{
+            lido[posicaoLivro] = true;
+            nota[posicaoLivro] = aplicarNota;
+            console.log(`Livro "${tituloLivro}" marcado como lido e nota ${aplicarNota} aplicada!`)
+           }
+
+        }
+    }
+
+}
+function ListarLidos(): void {
+    const livrosLidos = lido.map((statusLido, indice) => ({
+        autor: autores[indice],
+        tituloLivro: titulo[indice],
+        nota: nota[indice],
+        lido: statusLido,
+    })).filter((livro) => livro.lido === true);
+
+    if(livrosLidos.length === 0){
+        console.log("Você não leu nenhum livro... Vamos melhorar isso?")
+    }
+    else{console.log('Lsita dos livros que já foram lidos:')
+        livrosLidos.forEach((livro, indice) =>{
+            console.log(`${indice + 1} - ${livro.tituloLivro} - Nota: ${livro.nota}/5.`)
+        })
+    
+    }
+}
+function listarLeiturasPendentes(): void {
+    const leiturasPendentes = lido.map((statusLido, indice) => ({
+         autor: autores[indice],
+         tituloLivro: titulo[indice],
+         lido: statusLido,
+    })).filter((livro) => livro.lido === false);
+
+    if(leiturasPendentes.length === 0){
+        console.log('Você já leu toda sua biblioteca, hora de adquirir mais livros!')
+    }
+    else{
+        console.log('Lista de leituras pendentes:')
+        leiturasPendentes.forEach((livro,indice) => {
+            console.log(`${indice +1}. ${livro.tituloLivro} - ${livro.autor}`)
+        })
+    }
+
+    }
 
 adicionarLivro('O Livro que você gostaria que seus pais tivessem lido','Philippa Perry',2019,294,true,4 );
 adicionarLivro('Orgulho e Preconceito','Jane Austen',1813,336,true,5);
@@ -88,3 +147,6 @@ adicionarLivro('Orgulho e Preconceito','Jane Austen',1813,336,true,5);
 exibirBiblioteca();
 //buscarPorTitulo('1984');
 listarPorAutor('Jane Austen');
+//marcarComoLido('Dom Casmurro',5);
+ListarLidos();
+listarLeiturasPendentes();
