@@ -139,14 +139,51 @@ function listarLeiturasPendentes(): void {
         })
     }
 
-    }
+}
+function totalLivros(): number{
+    const numLivros:number = titulo.length;
+    return numLivros
+}
+function totalLidos(): number{
+    const numLidos: number = lido.filter((status) => status === true).length;
+    return numLidos;
+}
+function percentualLidos(): string{
+    const porctLidos: number = (totalLidos() / totalLivros()) * 100
+    const porctLidos2Casas:string = porctLidos.toFixed(2)
+    return porctLidos2Casas;
+}
+function mediaAvaliacoes(): string{
+    const avaliacoes:number [] = nota.filter((avaliacao) => avaliacao > 0)
+    const somaAvaliacoes: number = avaliacoes.reduce((acumulador, atual) => acumulador + atual, 0)
+    const mediaNotas: number = somaAvaliacoes / avaliacoes.length;
+    const media: string = mediaNotas.toFixed(2)
+    return media;
+}
+function totalPaginasLidas(): number{
+    const livrosLidos = lido.map((status, indice) => ({
+        numPaginas: numpaginas[indice],
+        lido: lido[indice],
+    })).filter ((livro) => livro.lido === true)
+
+    const totalPaginas: number = livrosLidos.reduce((acumulador,livro) => acumulador + (livro.numPaginas ?? 0), 0);
+    return totalPaginas;
+}
+function exibirEstatisticas(): void {
+    console.log(`Total de livros na biblioteca: ${totalLivros()}`)
+    console.log(`Total de livros lidos da biblioteca: ${totalLidos()}`)
+    console.log(`Percentual de livros lido da biblioteca: ${percentualLidos()}%.`)
+    console.log(`A media das avaliações é : ${mediaAvaliacoes()}.`)
+    console.log(`Total de páginas lidas: ${totalPaginasLidas()}.`)
+}
 
 adicionarLivro('O Livro que você gostaria que seus pais tivessem lido','Philippa Perry',2019,294,true,4 );
 adicionarLivro('Orgulho e Preconceito','Jane Austen',1813,336,true,5);
 //removerLivro(); //deixei comentado a função de remover livro pq 1984 não merece ser removido, mas funciona!
 exibirBiblioteca();
 //buscarPorTitulo('1984');
-listarPorAutor('Jane Austen');
+//listarPorAutor('Jane Austen');
 //marcarComoLido('Dom Casmurro',5);
-ListarLidos();
-listarLeiturasPendentes();
+//ListarLidos();
+//istarLeiturasPendentes();
+exibirEstatisticas();
