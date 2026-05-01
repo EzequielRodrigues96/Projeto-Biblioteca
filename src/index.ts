@@ -176,6 +176,26 @@ function exibirEstatisticas(): void {
     console.log(`A media das avaliações é : ${mediaAvaliacoes()}.`)
     console.log(`Total de páginas lidas: ${totalPaginasLidas()}.`)
 }
+function exibirPorDecada(): void {
+    console.log("\n===== Exibindo a biblioteca por década: =====\n ")
+    const livrosPorDecada = titulo.map((titulo, indice) => ({
+        titulo: titulo,
+        ano: anopublicacao[indice]!
+    }));
+    const livrosAgrupadosPorDecada: { [decada: string]: { titulo: string; ano: number }[] } = {};
+    livrosPorDecada.forEach((livro) => {
+        const decada = Math.floor(livro.ano / 10) * 10;
+        if (!livrosAgrupadosPorDecada[decada]) {
+            livrosAgrupadosPorDecada[decada] = [];
+        }
+        livrosAgrupadosPorDecada[decada].push(livro);
+    });
+    console.log('Livros agrupados por década:');
+    for (const [decada, livros] of Object.entries(livrosAgrupadosPorDecada)) {
+        const titulos = livros.map((livro) => `"${livro.titulo}"`).join(', ');
+        console.log(`${decada}s: ${titulos}`);
+    }
+}//nessa função usei bastante o axulio do copilot, gastante quase todos os tokens de chat, mas entendi a lógica toda e deu certo no fim
 
 adicionarLivro('O Livro que você gostaria que seus pais tivessem lido','Philippa Perry',2019,294,true,4 );
 adicionarLivro('Orgulho e Preconceito','Jane Austen',1813,336,true,5);
@@ -187,3 +207,4 @@ exibirBiblioteca();
 //ListarLidos();
 //istarLeiturasPendentes();
 exibirEstatisticas();
+exibirPorDecada();
