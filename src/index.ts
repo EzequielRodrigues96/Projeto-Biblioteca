@@ -8,22 +8,39 @@ const nota: number[] = [];
 titulo.push('1984',
     'Dom Casmurro',
     'Sociedade do Cansaço',
-    'Noites Brancas'
-    )
+    'Noites Brancas',
+    'Harry Potter e a Pedra Filosofal',
+    'Harry Potter e a Câmara Secreta',
+    'Harry Potter e o Prisioneiro de Azkaban',
+    'O Morro dos Ventos Uivantes',
+    'O Diário de Anne Frank',
+    'Memórias do Subsolo',
+    'A Revolução dos Bichos',
+    'A Morte de Ivan Ilitch',
+)
 
 autores.push(
     "George Orwell",
     "Machado de Assis",
     "Byung-Chul Han",
-    "Fiódor Dostoiévsk"
+    "Fiódor Dostoiévsk",
+    "J.K. Rowling",
+    "J.K. Rowling",
+    "J.K. Rowling",
+    "Emily Brontë",
+    "Anne Frank",
+    "Fiódor Dostoiévsk",
+    "George Orwell",
+    "Liev Tolstói"
 )
 
-anopublicacao.push(1949,1899,2010,1848)
-numpaginas.push(224,208,128,96)
-lido.push(true, false, true, true)
-nota.push(5,0,4,5)
+anopublicacao.push(1949,1899,2010,1848,1997,1998,1999,1847,1947,1864,1945,1886)
+numpaginas.push(224,208,128,96,210,224,288,368,192,192,96,80)
+lido.push(true, false, true, true,true,true,false,true,true,true,true,true)
+nota.push(5,0,4,5,5,5,0,2,4,4,5,5)
 
 function exibirBiblioteca(){
+    console.log("\n===== MINHA BIBLIOTECA =====\n")
 titulo.forEach((titulo: string, indice: number,) => {
     const status = lido[indice] ? 'LIDO'  : 'PENDENTE';
     const notao: string = nota[indice]! > 0 ? `${nota[indice]}/5` : 'SEM NOTA'
@@ -49,19 +66,29 @@ function adicionarLivro(
     lido.push(novoLido);
     nota.push(novaNota);
 }
-function removerLivro(){
-    titulo.shift();
-    autores.shift();
-    anopublicacao.shift();
-    numpaginas.shift();
-    lido.shift();
-    nota.shift();
+function removerLivro(nomeLivro: string): void {
+    console.log("\n===== REMOVER LIVRO =====\n")
+    const posicaoLivro: number = titulo.findIndex((titulo) => titulo === nomeLivro);
+    if(posicaoLivro === -1){
+        console.log(`Livro ${nomeLivro} não encontrado!`)
+        return;
+    }else{
+        console.log(`Livro "${nomeLivro}" removido da biblioteca!`)
+        titulo.splice(posicaoLivro, 1);
+        autores.splice(posicaoLivro, 1);
+        anopublicacao.splice(posicaoLivro, 1);
+        numpaginas.splice(posicaoLivro, 1);
+        lido.splice(posicaoLivro, 1);
+        nota.splice(posicaoLivro, 1);
+    }
 }
 function buscarPorTitulo(livroPesquisado: string){
+    console.log("\n===== PESQUISA POR TÍTULO =====")
     const possuiLivro: boolean = titulo.includes(livroPesquisado);
-    possuiLivro ? console.log("\nLivro encontrado!") : console.log("\nLivro não encontrado ou título digitado incorretamente!");
+    possuiLivro ? console.log("\nLivro encontrado!\n") : console.log("\nLivro não encontrado ou título digitado incorretamente!\n");
 }
 function listarPorAutor(autorPesquisado: string): void {
+    console.log("\n===== LISTA POR AUTOR PESQUISADO =====\n")
     const livrosDoAutor = titulo.map((titulo, indice) =>  ({
         autor: autores[indice],
         tituloLivro: titulo,
@@ -72,13 +99,14 @@ function listarPorAutor(autorPesquisado: string): void {
         console.log(`Nehum livro de ${autorPesquisado} encontrado!`)
     }
 
-    else console.log(`\nLivros de ${autorPesquisado}:`)
+    else console.log(`Livros de ${autorPesquisado}:`)
     livrosDoAutor.forEach((livro, indice) =>{
-        const status: string = livro.lido ? 'LIDO\n' : 'PENDENTE\n'
+        const status: string = livro.lido ? 'LIDO' : 'PENDENTE'
         console.log(`${indice + 1} - "${livro.tituloLivro}" - ${status}`)
     })
 }
 function marcarComoLido(tituloLivro: string, aplicarNota:number): void {
+    console.log("\n===== MARCAR COMO LIDO=====\n")
     const posicaoLivro:number = titulo.findIndex((titulo) => titulo === tituloLivro);
     if(posicaoLivro === -1){
         console.log (`Livro ${tituloLivro} não encontrado. \n`)
@@ -97,7 +125,7 @@ function marcarComoLido(tituloLivro: string, aplicarNota:number): void {
            else{
             lido[posicaoLivro] = true;
             nota[posicaoLivro] = aplicarNota;
-            console.log(`Livro "${tituloLivro}" marcado como lido e nota ${aplicarNota} aplicada!`)
+            console.log(`Livro "${tituloLivro}" marcado como lido e nota ${aplicarNota} aplicada!\n`)
            }
 
         }
@@ -105,6 +133,7 @@ function marcarComoLido(tituloLivro: string, aplicarNota:number): void {
 
 }
 function ListarLidos(): void {
+    console.log("\n===== LEITURAS FINALIDAS =====\n")
     const livrosLidos = lido.map((statusLido, indice) => ({
         autor: autores[indice],
         tituloLivro: titulo[indice],
@@ -123,6 +152,7 @@ function ListarLidos(): void {
     }
 }
 function listarLeiturasPendentes(): void {
+    console.log("\n===== LISTA DE LEITURAS PENDENTES =====\n")
     const leiturasPendentes = lido.map((statusLido, indice) => ({
          autor: autores[indice],
          tituloLivro: titulo[indice],
@@ -133,7 +163,6 @@ function listarLeiturasPendentes(): void {
         console.log('Você já leu toda sua biblioteca, hora de adquirir mais livros!')
     }
     else{
-        console.log('Lista de leituras pendentes:')
         leiturasPendentes.forEach((livro,indice) => {
             console.log(`${indice +1}. ${livro.tituloLivro} - ${livro.autor}`)
         })
@@ -170,6 +199,7 @@ function totalPaginasLidas(): number{
     return totalPaginas;
 }
 function exibirEstatisticas(): void {
+    console.log("\n===== ESTATISTICAS NERD =====\n")
     console.log(`Total de livros na biblioteca: ${totalLivros()}`)
     console.log(`Total de livros lidos da biblioteca: ${totalLidos()}`)
     console.log(`Percentual de livros lido da biblioteca: ${percentualLidos()}%.`)
@@ -177,7 +207,7 @@ function exibirEstatisticas(): void {
     console.log(`Total de páginas lidas: ${totalPaginasLidas()}.`)
 }
 function exibirPorDecada(): void {
-    console.log("\n===== Exibindo a biblioteca por década: =====\n ")
+    console.log("\n===== EXIBINDO BIBLIOTECA POR DÉCADA =====\n ")
     const livrosPorDecada = titulo.map((titulo, indice) => ({
         titulo: titulo,
         ano: anopublicacao[indice]!
@@ -190,21 +220,20 @@ function exibirPorDecada(): void {
         }
         livrosAgrupadosPorDecada[decada].push(livro);
     });
-    console.log('Livros agrupados por década:');
     for (const [decada, livros] of Object.entries(livrosAgrupadosPorDecada)) {
         const titulos = livros.map((livro) => `"${livro.titulo}"`).join(', ');
         console.log(`${decada}s: ${titulos}`);
     }
-}//nessa função usei bastante o axulio do copilot, gastante quase todos os tokens de chat, mas entendi a lógica toda e deu certo no fim
+}//nessa função usei bastante o axulio do copilot, gastando quase todos os tokens de chat, mas entendi a lógica toda e deu certo no fim
 
 adicionarLivro('O Livro que você gostaria que seus pais tivessem lido','Philippa Perry',2019,294,true,4 );
 adicionarLivro('Orgulho e Preconceito','Jane Austen',1813,336,true,5);
-//removerLivro(); //deixei comentado a função de remover livro pq 1984 não merece ser removido, mas funciona!
+//removerLivro("1984"); //deixei comentado a função de remover livro pq 1984 não merece ser removido, mas funciona!
 exibirBiblioteca();
-//buscarPorTitulo('1984');
-//listarPorAutor('Jane Austen');
+buscarPorTitulo('1984');
+listarPorAutor('Fiódor Dostoiévsk');
 //marcarComoLido('Dom Casmurro',5);
-//ListarLidos();
-//istarLeiturasPendentes();
+ListarLidos();
+listarLeiturasPendentes();
 exibirEstatisticas();
 exibirPorDecada();
